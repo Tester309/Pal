@@ -1,0 +1,17 @@
+name: Push to Discord
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  discord-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send commit info to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\":\"🚀 Repo: *${{ github.repository }}*\n👤 By: *${{ github.actor }}*\n📝 Message: *${{ github.event.head_commit.message }}*\"}" \
+               ${{ secrets.DISCORD_WEBHOOK }}
